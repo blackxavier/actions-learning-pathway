@@ -9,10 +9,6 @@ jobs:
       - run: echo "$(cat hello_world.txt)"
       - name: Checkout Nodejs App
         uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-      - name: Build code
-        uses: actions/setup-node@v3
       - run: npm install
       - run: npm run build
       
