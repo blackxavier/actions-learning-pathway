@@ -2,7 +2,7 @@ name: code-test-build
 on: push
 jobs:
   code:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
