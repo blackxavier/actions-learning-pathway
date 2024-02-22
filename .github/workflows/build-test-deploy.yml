@@ -19,8 +19,39 @@ jobs:
          uses: actions/checkout@v3
       -  name: Setup Node App
          uses: actions/setup-node@v3
+         with:
+          node-version: '18.x'
       -  run: npm install
       -  run: npm test
-        
-      
-      
+  deploy:
+    needs: test
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: production
+      url: ${{ steps.deployments.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      -  name: Checkout Repo
+         uses: actions/checkout@v3
+         with:
+           token: ${{ secrets.GITHUB_TOKEN }}
+      -  name: Setup Node app
+         uses: actions/setup-node@v3
+         with:
+           node-version: '18.x'
+      -  name: Configure GitHub pages
+         uses: actions/configure-pages@v3
+         with:
+           static_site_generator: next
+      - run: npm install
+      - run: npm run build 
+      - name: Upload to GitHub pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "./out"
+      - name: Deploy to GitHub Pages
+      - id: deployment
+        uses: actions/deploy-pages@v1
